@@ -54,6 +54,7 @@ RUN echo mysql-connector-java-$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYS
 
 EXPOSE 8983
 ADD ./docker-entrypoint.sh /entrypoint.sh
+RUN chmod u=rwx /entrypoint.sh
 WORKDIR /opt/solr
 ENTRYPOINT ["/entrypoint.sh"]
 
