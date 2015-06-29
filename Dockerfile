@@ -21,41 +21,9 @@ RUN mkdir -p /opt \
 ##
 #
 
-#
-## Patch naturalSort.js
-## See https://issues.apache.org/jira/browse/SOLR-7588
-##ADD https://issues.apache.org/jira/secure/attachment/12738314/SOLR-7588.patch /tmp/SOLR-7588.patch
-##RUN mkdir /opt/solr/server/solr-webapp/webapp \
-## && unzip -d /opt/solr/server/solr-webapp/webapp /opt/solr/server/webapps/solr.war \
-## && patch -p0 /opt/solr/server/solr-webapp/webapp/js/lib/naturalSort.js < /tmp/SOLR-7588.patch \
-## && rm /tmp/SOLR-7588.patch
-##
-#
-
-#
-## JDBC
-##ENV JDBC_MYSQL_VERSION 5.1.35
-##ENV JDBC_PSQL_VERSION 9.3-1103.jdbc41
-# PostgreSQL
-##ADD http://jdbc.postgresql.org/download/postgresql-$JDBC_PSQL_VERSION.jar /opt/solr/dist/postgresql-$JDBC_PSQL_VERSION.jar
-# MySQL
-##ADD http://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-$JDBC_MYSQL_VERSION.tar.gz /tmp/mysql-connector-java-$JDBC_MYSQL_VERSION.tar.gz
-##RUN echo mysql-connector-java-$JDBC_MYSQL_VERSION/mysql-connector-java-$JDBC_MYSQL_VERSION-bin.jar > /tmp/include \
-## && gzip -dc /tmp/mysql-connector-java-$JDBC_MYSQL_VERSION.tar.gz | tar -x -T /tmp/include > /opt/solr/dist/mysql-connector-java-$JDBC_MYSQL_VERSION-bin.jar \
-## && rm -rf /tmp/*
-##
-#
-
-#
-## CLEANUP
-#RUN rm -rfv /tmp/*
-##
-#
 
 EXPOSE 8983
-ADD ./docker-entrypoint.sh /entrypoint.sh
-RUN chmod u=rwx /entrypoint.sh
-WORKDIR /opt/solr
-ENTRYPOINT ["/entrypoint.sh"]
+WORKDIR /opt/solr/example
+CMD ["/bin/bash", "-c", "cd /opt/solr/example; java -jar start.jar"]
 
 
